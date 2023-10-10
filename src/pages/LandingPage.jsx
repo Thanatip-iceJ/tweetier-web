@@ -1,6 +1,6 @@
 import React from "react";
-import RegisterButton from "../components/RegisterButton";
-import LoginButton from "../components/LoginButton";
+import RegisterButton from "../components/auth/RegisterButton";
+import LoginButton from "../components/auth/LoginButton";
 import { Link } from "react-router-dom";
 
 function LandingPage() {
