@@ -6,14 +6,21 @@ function Input({
   width = "[24rem]",
   icon = <BsPerson />,
   type = "text",
+  name,
+  value,
+  hasError,
+  onChange,
 }) {
   return (
     <div className="relative">
-      <div className="absolute top-4 left-3 text-xl">{icon}</div>
+      <div className="absolute top-8 left-3 text-xl">{icon}</div>
       <input
         type={type}
         placeholder={placeholder}
-        className={`bg-white rounded-md pl-11 py-3 border w-${width} outline-none focus:border focus:border-main focus:ring focus:ring-blue-300`}
+        className={`block bg-white rounded-sm mt-4 pl-11 py-3 border border-gray-500 w-${width} outline-none focus:border focus:border-main focus:ring focus:ring-blue-300`}
+        value={value}
+        name={name}
+        onChange={onChange}
       />
     </div>
   );
