@@ -65,9 +65,9 @@ function RegisterForm() {
   // console.log(error);
 
   return (
-    <div className="relative z-20 flex justify-center h-[700px] items-end flex-col">
+    <div className="relative z-20 flex justify-center h-[80vh] items-end flex-col">
       <form
-        className="bg-white/[0.8] shadow-md border border-gray-500 flex flex-col gap-1 px-16 py-10 pb-14 rounded-md w-[36rem] items-center relative"
+        className="bg-white/[0.8] shadow-md border border-gray-500 flex flex-col gap-1 px-4 py-6 pb-10 rounded-md w-[36rem] items-center relative"
         onSubmit={handleSubmit}
       >
         <Link to="/">
@@ -76,57 +76,70 @@ function RegisterForm() {
           </div>
         </Link>
         <h5 className="text-center text-lg font-semibold">Create an account</h5>
-        <FormInput
-          placeholder="Firstname"
-          value={input.firstName}
-          name="firstName"
-          hasError={error}
-          onChange={handleOnChange}
-        />
-        {error && <ErrorSpan message={error.firstName} />}
-        <FormInput
-          placeholder="Lastname"
-          value={input.lastName}
-          name="lastName"
-          hasError={error}
-          onChange={handleOnChange}
-        />
-        {error && <ErrorSpan message={error.lastName} />}
-        <FormInput
-          placeholder="Username"
-          value={input.username}
-          name="username"
-          hasError={error}
-          onChange={handleOnChange}
-        />
-        {error && <ErrorSpan message={error.username} />}
-        <FormInput
-          placeholder="Email"
-          value={input.email}
-          name="email"
-          onChange={handleOnChange}
-        />
-        {error && <ErrorSpan message={error.email} />}
-        <FormInput
-          placeholder="Password"
-          icon={<BsLock />}
-          type="password"
-          value={input.password}
-          name="password"
-          hasError={error}
-          onChange={handleOnChange}
-        />
-        {error && <ErrorSpan message={error.password} />}
-        <FormInput
-          placeholder="Confirm password"
-          icon={<BsLock />}
-          type="password"
-          value={input.confirmPassword}
-          name="confirmPassword"
-          hasError={error}
-          onChange={handleOnChange}
-        />
-        {error && <ErrorSpan message={error.confirmPassword} />}
+        <div>
+          <FormInput
+            placeholder="Firstname"
+            value={input.firstName}
+            name="firstName"
+            hasError={error}
+            onChange={handleOnChange}
+          />
+          {error && <ErrorSpan message={error.firstName} />}
+        </div>
+        <div>
+          <FormInput
+            placeholder="Lastname"
+            value={input.lastName}
+            name="lastName"
+            hasError={error}
+            onChange={handleOnChange}
+          />
+          {error && <ErrorSpan message={error.lastName} />}
+        </div>
+        <div>
+          <FormInput
+            placeholder="Username"
+            value={input.username}
+            name="username"
+            hasError={error}
+            onChange={handleOnChange}
+          />
+          {error && <ErrorSpan message={error.username} />}
+        </div>
+        <div>
+          <FormInput
+            placeholder="Email"
+            value={input.email}
+            name="email"
+            onChange={handleOnChange}
+            hasError={error}
+          />
+          {error && <ErrorSpan message={error.email} />}
+        </div>
+        <div>
+          <FormInput
+            placeholder="Password"
+            icon={<BsLock />}
+            type="password"
+            value={input.password}
+            name="password"
+            hasError={error}
+            onChange={handleOnChange}
+          />
+          {error && <ErrorSpan message={error.password} />}
+        </div>
+        <div>
+          <FormInput
+            placeholder="Confirm password"
+            icon={<BsLock />}
+            type="password"
+            value={input.confirmPassword}
+            name="confirmPassword"
+            hasError={error}
+            onChange={handleOnChange}
+          />
+          {error && <ErrorSpan message={error.confirmPassword} />}
+        </div>
 
         <button
           type="submit"

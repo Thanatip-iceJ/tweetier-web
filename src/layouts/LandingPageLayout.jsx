@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 function LandingPageLayout() {
   return (
     <>
-      <div className="relative w-full h-screen">
+      <div className="relative w-full h-[110vh]">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center z-0"

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 function LandingPage() {
   return (
-    <div className="relative z-20 flex justify-center h-[700px] items-end flex-col text-right gap-8">
+    <div className="relative z-20 flex justify-center h-[80vh] items-end flex-col text-right gap-8">
       <div id="title">
         <h1 className="text-[#1D9BF1] text-[52px] font-bold">Stay connected</h1>
         <h1 className="text-[#1D9BF1] text-[52px] font-bold leading-tight">

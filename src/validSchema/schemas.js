@@ -15,3 +15,17 @@ export const registerSchema = Joi.object({
     .required()
     .strip(),
 });
+
+export const loginSchema = Joi.object({
+  emailOrUsername: Joi.alternatives([
+    Joi.string().email({ tlds: { allow: false } }),
+    Joi.string()
+      .trim()
+      .pattern(/^[a-zA-Z0-9]{3,30}$/)
+      .required(),
+  ]),
+  password: Joi.string()
+    .trim()
+    .pattern(/^[a-zA-Z0-9]{3,30}$/)
+    .required(),
+});

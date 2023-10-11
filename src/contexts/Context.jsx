@@ -20,6 +20,8 @@ function ContextProvider({ children }) {
     setAuthUser(res.data.user);
   };
 
+  // const login = ();
+
   const sharedContexts = { register, authUser };
   return <Context.Provider value={sharedContexts}>{children}</Context.Provider>;
 }
