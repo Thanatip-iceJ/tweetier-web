@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "../assets/Logo";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 
 function LandingPageLayout() {
   return (
@@ -20,7 +20,9 @@ function LandingPageLayout() {
         {/* Content Container */}
         <div id="container" className="mx-auto w-4/6">
           <div className="relative z-20 pt-[36px]">
-            <Logo />
+            <Link to="/">
+              <Logo />
+            </Link>
           </div>
           <div className="relative z-20">
             <Outlet />

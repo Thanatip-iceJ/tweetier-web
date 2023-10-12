@@ -22,7 +22,7 @@ function RegisterForm() {
     confirmPassword: "",
   });
 
-  const [error, setError] = useState({});
+  const [error, setError] = useState(undefined);
   // console.log(error);
   //ValidateInput
   const validateInput = (input) => {
@@ -52,7 +52,7 @@ function RegisterForm() {
       setError(validateError);
       return;
     }
-    setError({});
+    setError(null);
     register(input)
       .then((res) => {
         toast.success("Register successfully");
@@ -84,7 +84,7 @@ function RegisterForm() {
             hasError={error}
             onChange={handleOnChange}
           />
-          {error && <ErrorSpan message={error.firstName} />}
+          {error && <ErrorSpan message={error?.firstName} />}
         </div>
         <div>
           <FormInput
@@ -94,7 +94,7 @@ function RegisterForm() {
             hasError={error}
             onChange={handleOnChange}
           />
-          {error && <ErrorSpan message={error.lastName} />}
+          {error && <ErrorSpan message={error?.lastName} />}
         </div>
         <div>
           <FormInput
@@ -104,7 +104,7 @@ function RegisterForm() {
             hasError={error}
             onChange={handleOnChange}
           />
-          {error && <ErrorSpan message={error.username} />}
+          {error && <ErrorSpan message={error?.username} />}
         </div>
         <div>
           <FormInput
@@ -114,7 +114,7 @@ function RegisterForm() {
             onChange={handleOnChange}
             hasError={error}
           />
-          {error && <ErrorSpan message={error.email} />}
+          {error && <ErrorSpan message={error?.email} />}
         </div>
         <div>
           <FormInput
@@ -126,7 +126,7 @@ function RegisterForm() {
             hasError={error}
             onChange={handleOnChange}
           />
-          {error && <ErrorSpan message={error.password} />}
+          {error && <ErrorSpan message={error?.password} />}
         </div>
         <div>
           <FormInput
@@ -138,7 +138,7 @@ function RegisterForm() {
             hasError={error}
             onChange={handleOnChange}
           />
-          {error && <ErrorSpan message={error.confirmPassword} />}
+          {error && <ErrorSpan message={error?.confirmPassword} />}
         </div>
 
         <button

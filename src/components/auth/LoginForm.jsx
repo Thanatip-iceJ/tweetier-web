@@ -1,17 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import FormInput from "./FormInput";
 import { Link } from "react-router-dom";
 import { BsChevronDoubleLeft, BsLock } from "react-icons/bs";
 import { loginSchema } from "../../validSchema/schemas";
 import ErrorSpan from "./errorSpan";
+import { Context } from "../../contexts/Context";
+import { toast } from "react-toastify";
 
 function LoginForm() {
+  // Contexts
+  const { login } = useContext(Context);
   // States
   const [input, setInput] = useState({
     emailOrUsername: "",
     password: "",
   });
-  const [error, setError] = useState({});
+  const [error, setError] = useState(null);
 
   // validation
   const validateLogin = (input) => {
@@ -33,6 +37,10 @@ function LoginForm() {
       setError(validateError);
       return;
     }
+    setError(null);
+    login(input)
+      .then((res) => toast.success("Login successfully.."))
+      .catch((err) => toast.error(err.response.data.message));
   };
 
   const handleChange = (e) => {
@@ -62,7 +70,7 @@ function LoginForm() {
             onChange={handleChange}
             hasError={error}
           />
-          <ErrorSpan message={error.emailOrUsername} />
+          {error && <ErrorSpan message={error?.emailOrUsername} />}
         </div>
         <div>
           <FormInput
@@ -73,7 +81,7 @@ function LoginForm() {
             onChange={handleChange}
             hasError={error}
           />
-          <ErrorSpan message={error.password} />
+          {error && <ErrorSpan message={error?.password} />}
         </div>
 
         <button

@@ -6,6 +6,10 @@ import RegisterPage from "../pages/RegisterPage";
 import Login from "../pages/LoginPage";
 import HomePage from "../pages/HomePage";
 import RedirectIfAuthenticated from "../components/auth/RedirectIfAuthenticated";
+import Unauthenticated from "../components/auth/Unauthenticated";
+import HomePageLayout from "../layouts/HomePageLayout";
+import ProfilePage from "../pages/ProfilePage";
+import FollowerPage from "../pages/FollowerPage";
 
 const router = createBrowserRouter([
   {
@@ -17,11 +21,23 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "", element: <LandingPage /> },
-      { path: "Register", element: <RegisterPage /> },
-      { path: "Login", element: <Login /> },
+      { path: "register", element: <RegisterPage /> },
+      { path: "login", element: <Login /> },
     ],
   },
-  { path: "/home", element: <HomePage /> },
+  {
+    path: "/home",
+    element: (
+      <Unauthenticated>
+        <HomePageLayout />
+      </Unauthenticated>
+    ),
+    children: [
+      { path: "", element: <HomePage /> },
+      { path: "profile/:profileId", element: <ProfilePage /> },
+      { path: "follower", element: <FollowerPage /> },
+    ],
+  },
 ]);
 
 export default function Routes() {
