@@ -8,11 +8,10 @@ import {
   BsFillPersonFill,
   BsBoxArrowRight,
 } from "react-icons/bs";
-import { MdPerson } from "react-icons/md";
 
 function Sidebar() {
   return (
-    <div className="text-white w-[18vw] flex flex-col gap-6 justify-start min-h-[100vh] items-start sticky top-0 pt-4">
+    <div className="text-white w-[18vw] flex flex-col gap-6 justify-start min-h-[100vh] items-start sticky top-0 pt-6">
       <div id="logo">
         <Link to="/home">
           <SideBarLogo />
