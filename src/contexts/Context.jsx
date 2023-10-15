@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { createContext } from "react";
 import axios from "../config/axios";
-import { createAccessToken, getAccessToken } from "../utils/local-storage";
+import {
+  createAccessToken,
+  getAccessToken,
+  removeAccessToken,
+} from "../utils/local-storage";
 import { useState } from "react";
 
 export const Context = createContext();
@@ -38,7 +42,12 @@ function ContextProvider({ children }) {
     setAuthUser(res.data.user);
   };
 
-  const sharedContexts = { register, authUser, login, loading };
+  const logout = () => {
+    removeAccessToken();
+    setAuthUser(null);
+  };
+
+  const sharedContexts = { register, authUser, login, loading, logout };
   return <Context.Provider value={sharedContexts}>{children}</Context.Provider>;
 }
 

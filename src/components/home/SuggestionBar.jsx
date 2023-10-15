@@ -1,7 +1,12 @@
 import React from "react";
+import FollowSuggestion from "./followSuggestion";
 
 function SuggestionBar() {
-  return <div className="text-white bg-gray-400 w-[18vw]">SuggestionBar</div>;
+  return (
+    <div className="text-white pt-10 sticky top-0">
+      <FollowSuggestion />
+    </div>
+  );
 }
 
 export default SuggestionBar;

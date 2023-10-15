@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import LandingPageLayout from "../layouts/LandingPageLayout";
 import LandingPage from "../pages/LandingPage";
 import RegisterPage from "../pages/RegisterPage";
@@ -10,6 +10,7 @@ import Unauthenticated from "../components/auth/Unauthenticated";
 import HomePageLayout from "../layouts/HomePageLayout";
 import ProfilePage from "../pages/ProfilePage";
 import FollowerPage from "../pages/FollowerPage";
+import PostPage from "../pages/PostPage";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/home",
+    path: "/home/",
     element: (
       <Unauthenticated>
         <HomePageLayout />
@@ -34,8 +35,8 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "", element: <HomePage /> },
-      { path: "profile/:profileId", element: <ProfilePage /> },
-      { path: "follower", element: <FollowerPage /> },
+      { path: "post", element: <PostPage /> },
+      { path: "profile", element: <ProfilePage /> },
     ],
   },
 ]);

@@ -9,6 +9,8 @@ export default {
       },
       colors: {
         main: "#1D9BF1",
+        border: "#666666",
+        fade: "#707070",
       },
     },
   },
