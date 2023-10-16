@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 function RedirectIfAuthenticated({ children }) {
   const { authUser } = useContext(Context);
   if (authUser) {
-    return <Navigate to="/home" />;
+    return <Navigate to="/">{children}</Navigate>;
   }
   return children;
 }

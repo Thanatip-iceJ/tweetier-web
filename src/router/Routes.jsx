@@ -14,7 +14,7 @@ import PostPage from "../pages/PostPage";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/auth",
     element: (
       <RedirectIfAuthenticated>
         <LandingPageLayout />
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/home/",
+    path: "/",
     element: (
       <Unauthenticated>
         <HomePageLayout />
@@ -35,8 +35,8 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "", element: <HomePage /> },
-      { path: "post", element: <PostPage /> },
-      { path: "profile", element: <ProfilePage /> },
+      { path: "post/", element: <PostPage /> },
+      { path: "profile/:profileId", element: <ProfilePage /> },
     ],
   },
 ]);

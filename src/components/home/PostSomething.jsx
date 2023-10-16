@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Avatar from "../global/Avatar";
 import { BsFillImageFill } from "react-icons/bs";
+import { PostContext } from "../../contexts/PostContext";
+import { toast } from "react-toastify";
 
-function PostSomething() {
-  const [postText, setPostText] = useState("");
+function PostSomething({ border = "border border-border" }) {
+  const { postText, setPostText, post } = useContext(PostContext);
+  //
+  const submitHandle = (e) => {
+    e.preventDefault();
+    post(postText)
+      .then((res) => {
+        setPostText("");
+        toast.success(res.data.message);
+      })
+      .catch((err) => toast.error(err.response.data.message));
+  };
 
   return (
-    <div className="border border-border pb-3">
+    <form className={`${border} pb-3`} onSubmit={submitHandle}>
       <div id="flexbox" className="flex pl-4 pt-4">
         <div id="avatar min-w-[2.5rem]">
           <Avatar />
@@ -35,7 +47,7 @@ function PostSomething() {
           Post
         </button>
       </div>
-    </div>
+    </form>
   );
 }
 

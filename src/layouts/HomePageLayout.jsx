@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/home/sidebar";
 import SuggestionBar from "../components/home/SuggestionBar";
-import HomeContextProvider from "../contexts/HomeContext";
+import HomeContextProvider, { HomeContext } from "../contexts/HomeContext";
+import LogoutConfirm from "../components/home/LogoutConfirm";
+import Modal from "../components/global/Modal";
+import PostSomething from "../components/home/PostSomething";
 
 function HomePageLayout() {
+  const { isOpenLogout, setIsOpenLogout, isOpenPost, setIsOpenPost } =
+    useContext(HomeContext);
+
   return (
     <>
       <div className="bg-[#111111] w-full min-h-[100vh] h-fit">
@@ -23,6 +29,20 @@ function HomePageLayout() {
           </div>
         </div>
       </div>
+      <Modal
+        title="Are you sure you want you logout?"
+        isOpen={isOpenLogout}
+        onClose={() => setIsOpenLogout(false)}
+      >
+        <LogoutConfirm onClose={() => setIsOpenLogout(false)} />
+      </Modal>
+      <Modal
+        title="Post something"
+        isOpen={isOpenPost}
+        onClose={() => setIsOpenPost(false)}
+      >
+        <PostSomething border="border-none" />
+      </Modal>
     </>
   );
 }

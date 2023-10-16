@@ -7,7 +7,7 @@ export default function Unauthenticated({ children }) {
   // Context
   const { authUser } = useContext(Context);
   if (!authUser) {
-    return <Navigate to="/">{children}</Navigate>;
+    return <Navigate to="/auth">{children}</Navigate>;
   }
   return children;
 }

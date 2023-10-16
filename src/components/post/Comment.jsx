@@ -1,17 +1,6 @@
-import React, { useContext, useState } from "react";
-import Avatar from "../global/Avatar";
-import { Context } from "../../contexts/Context";
-import { BsChat, BsFillHeartFill, BsHeart, BsThreeDots } from "react-icons/bs";
-import DropDown from "../global/DropDown";
-import { Link } from "react-router-dom";
+import React from "react";
 
-function Post() {
-  //
-  const { authUser } = useContext(Context);
-  // States
-  const [img, setImg] = useState(null);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+function Comment() {
   return (
     <div
       id="container"
@@ -82,4 +71,4 @@ function Post() {
   );
 }
 
-export default Post;
+export default Comment;

@@ -1,9 +1,9 @@
 import React from "react";
 import defaultImg from "../../assets/default.png";
 
-function Avatar({ size }) {
+function Avatar({ size, onClick }) {
   return (
-    <div className="cursor-pointer">
+    <div className="cursor-pointer" onClick={onClick}>
       <img
         src={defaultImg}
         alt="profilepic"

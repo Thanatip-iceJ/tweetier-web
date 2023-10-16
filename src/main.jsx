@@ -5,13 +5,16 @@ import "./index.css";
 import ContextProvider from "./contexts/Context.jsx";
 import "react-toastify/dist/ReactToastify.css";
 import HomeContextProvider from "./contexts/HomeContext.jsx";
+import PostContextProvider from "./contexts/PostContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
-  <HomeContextProvider>
+  <PostContextProvider>
     <ContextProvider>
-      <App />
+      <HomeContextProvider>
+        <App />
+      </HomeContextProvider>
     </ContextProvider>
-  </HomeContextProvider>
+  </PostContextProvider>
   // </React.StrictMode>,
 );
