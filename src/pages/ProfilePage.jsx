@@ -1,72 +1,95 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Context } from "../contexts/Context";
 import PageTitle from "../components/home/PageTitle";
-import { BsArrowLeft } from "react-icons/bs";
+import { BsArrowLeft, BsTypeH1 } from "react-icons/bs";
 import CoverImg from "../components/global/CoverImg";
 import Avatar from "../components/global/Avatar";
 import ProfileInfo from "../components/profile/ProfileInfo";
 import Post from "../components/home/Post";
 import axios from "../config/axios";
-import Loading from "../assets/Loading";
 import { HomeContext } from "../contexts/HomeContext";
+import Modal from "../components/global/Modal";
+import EditProfileForm from "../components/profile/EditProfileForm";
+import { ProfileContext } from "../contexts/ProfileContext";
+import AuthUserAction from "../components/profile/AuthUserAction";
+import UnknownAction from "../components/profile/UnknownAction";
+import FollowedAction from "../components/profile/FollowedAction";
 
 function ProfilePage() {
   //
-  const { authUser, loading } = useContext(Context);
-  const { setIsOpenProfileEdit } = useContext(HomeContext);
-  //
-  const [userProfile, setUserProfile] = useState({});
+  const { authUser } = useContext(Context);
+  const { isOpenProfileEdit, setIsOpenProfileEdit } = useContext(HomeContext);
+  const { userProfile, setUserProfile, statusWithAuth, setStatusWithAuth } =
+    useContext(ProfileContext);
   //
   const { profileId } = useParams();
+  //
+  const statusWithAuthObj = {
+    AUTH: <AuthUserAction onClick={() => setIsOpenProfileEdit(true)} />,
+    UNKNOWN: <UnknownAction targetId={profileId} />,
+    FOLLOWED: <FollowedAction targetId={profileId} />,
+  };
 
   useEffect(() => {
     axios
       .get(`/user/${profileId}`)
-      .then((res) => setUserProfile(res.data))
+      .then((res) => {
+        console.log(res.data);
+        setUserProfile(res.data.user);
+        setStatusWithAuth(res.data.statusWithAuth);
+      })
       .catch(console.log);
-  }, [profileId]);
+  }, [profileId, statusWithAuth]);
+
+  // console.log(userProfile);
+  // console.log(profileId);
 
   return (
     <>
-      {loading && <Loading />}
-      <div className="text-white border border-fade min-h-screen">
-        <PageTitle
-          title={`${userProfile.firstName} ${userProfile.lastName}`}
-          icon={<BsArrowLeft size="1.5rem" />}
-          to="/"
-        />
-        <div className="z-0">
-          <CoverImg />
-        </div>
-        <div id="flexbox" className="flex px-4 justify-between items-center">
-          <div className="z-1 border-2 w-fit rounded-full border-black -mt-14">
-            <Avatar src="" size="min-w-[2.5rem] max-w-[8rem]" />
+      {userProfile ? (
+        <div className="text-white border border-fade min-h-screen">
+          <PageTitle
+            title={`${userProfile.firstName} ${userProfile.lastName}`}
+            icon={<BsArrowLeft size="1.5rem" />}
+            to="/"
+          />
+          <div className="z-0">
+            <CoverImg />
+          </div>
+          <div id="flexbox" className="flex px-4 justify-between items-center">
+            <div className="z-1 border-2 w-fit rounded-full border-black -mt-14">
+              <Avatar src="" size="min-w-[2.5rem] max-w-[8rem]" />
+            </div>
+            <div>{statusWithAuthObj[statusWithAuth]}</div>
           </div>
           <div>
-            <button
-              className="border px-4 py-2 rounded-2xl font-bold mt-2 hover:bg-white hover:text-black transition-all duration-200"
-              onClick={() => setIsOpenProfileEdit(true)}
-            >
-              Edit Profile
-            </button>
+            <ProfileInfo
+              name={`${userProfile.firstName} ${userProfile.lastName}`}
+              username={userProfile.username}
+              bio={userProfile.bio}
+              date="14 july 1999"
+              following="999"
+              followers="555"
+            />
+            <hr className="border border-fade" />
+            <Post />
+            <Post />
+            <Post />
           </div>
+          <Modal
+            title="Edit Profile"
+            isOpen={isOpenProfileEdit}
+            onClose={() => setIsOpenProfileEdit(false)}
+          >
+            <EditProfileForm />
+          </Modal>
         </div>
-        <div>
-          <ProfileInfo
-            name={`${userProfile.firstName} ${userProfile.lastName}`}
-            username={userProfile.username}
-            bio="keep cool keep cool keep cool keep cool keep cool keep cool keep cool keep cool keep cool keep cool keep cool"
-            date="14 july 1999"
-            following="999"
-            followers="555"
-          />
-          <hr className="border border-fade" />
-          <Post />
-          <Post />
-          <Post />
-        </div>
-      </div>
+      ) : (
+        <h1 className="text-white text-2xl py-8 text-center">
+          404 PROFILE NOT FOUND
+        </h1>
+      )}
     </>
   );
 }

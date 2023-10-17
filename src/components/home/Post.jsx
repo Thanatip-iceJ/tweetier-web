@@ -5,7 +5,16 @@ import { BsChat, BsFillHeartFill, BsHeart, BsThreeDots } from "react-icons/bs";
 import DropDown from "../global/DropDown";
 import { Link } from "react-router-dom";
 
-function Post() {
+function Post({
+  firstName,
+  lastName,
+  username,
+  profileImg,
+  contentText,
+  contentImg,
+  userId,
+  postId,
+}) {
   //
   const { authUser } = useContext(Context);
   // States
@@ -24,30 +33,30 @@ function Post() {
         <BsThreeDots />
       </div>
       <div className="flex gap-4">
-        <Avatar />
+        <Avatar src={profileImg} />
         <div className="flex flex-col gap-1">
           <div className="flex gap-1.5">
-            <p
-              className="text-white font-semibold cursor-pointer hover:underline"
-              onClick={() => console.log("clicked username")}
-            >
-              {authUser.firstName} {authUser.lastName}
-            </p>
-
-            <p className="text-[#707070] text-sm font-semibold mt-[.1rem]">
-              @{authUser.username}
-            </p>
+            <Link to={`/profile/${userId}`}>
+              <p className="text-white font-semibold cursor-pointer hover:underline">
+                {firstName} {lastName}
+              </p>
+            </Link>
+            <Link to={`/profile/${userId}`}>
+              <p className="text-[#707070] text-sm font-semibold mt-[.1rem] hover:underline">
+                @{username}
+              </p>
+            </Link>
             <span className="block text-fade text-sm mt-[.1rem]">2h</span>
           </div>
           <p className="max-w-[30rem] text-[.9rem] break-words">
-            ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+            {contentText}
           </p>
-          <div className="flex gap-16 mt-2">
+          <div className="flex gap-16">
             <div
               className="flex items-center gap-1 text-fade hover:text-main cursor-pointer "
               onClick={() => console.log("clicked comment")}
             >
-              <Link to="post">
+              <Link to={`/post/${postId}`}>
                 <div className="hover:bg-main/[.3] rounded-full p-2">
                   <BsChat />
                 </div>

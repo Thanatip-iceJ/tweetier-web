@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "", element: <HomePage /> },
-      { path: "post/", element: <PostPage /> },
+      { path: "post/:postId", element: <PostPage /> },
       { path: "profile/:profileId", element: <ProfilePage /> },
     ],
   },

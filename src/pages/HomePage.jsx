@@ -1,25 +1,28 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../contexts/Context";
 import PageTitle from "../components/home/PageTitle";
 import PostSomething from "../components/home/PostSomething";
-import Post from "../components/home/Post";
-import HomeContextProvider from "../contexts/HomeContext";
-import Modal from "../components/global/Modal";
+import PostList from "../components/post/PostList";
+import { PostContext } from "../contexts/PostContext";
+import axios from "../config/axios";
 
 function HomePage() {
-  const { authUser } = useContext(Context);
+  //
+  const { setPosts } = useContext(PostContext);
+  //
+  useEffect(() => {
+    axios
+      .get("/post/getposts")
+      .then((res) => setPosts(res.data))
+      .catch(console.log);
+  }, []);
+
   return (
     <>
       <div className="text-white border border-border min-h-[100vh] z-0">
         <PageTitle title="Home" />
         <PostSomething />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
+        <PostList />
       </div>
     </>
   );
