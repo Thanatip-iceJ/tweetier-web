@@ -6,6 +6,7 @@ import Loading from "./assets/Loading";
 
 function App() {
   const { loading } = useContext(Context);
+  console.log(loading);
   if (loading) return <Loading />;
   return (
     <>

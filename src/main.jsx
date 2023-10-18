@@ -10,14 +10,14 @@ import ProfileContextProvider from "./contexts/ProfileContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
-  <ProfileContextProvider>
-    <PostContextProvider>
-      <ContextProvider>
+  <ContextProvider>
+    <ProfileContextProvider>
+      <PostContextProvider>
         <HomeContextProvider>
           <App />
         </HomeContextProvider>
-      </ContextProvider>
-    </PostContextProvider>
-  </ProfileContextProvider>
+      </PostContextProvider>
+    </ProfileContextProvider>
+  </ContextProvider>
   // </React.StrictMode>,
 );

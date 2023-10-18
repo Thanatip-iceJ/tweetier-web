@@ -15,14 +15,22 @@ function ContextProvider({ children }) {
   const [authUser, setAuthUser] = useState(null);
 
   const [loading, setLoading] = useState(true);
-  console.log(authUser);
+  // console.log(authUser);
+
+  const testLoading = (bool) => {
+    setLoading(bool);
+  };
 
   useEffect(() => {
+    console.log("work");
     if (getAccessToken()) {
       axios
         .get("/auth/getauthuser")
         .then((res) => setAuthUser(res.data.user))
-        .finally(() => setLoading(false));
+        .finally(() => {
+          // console.log("first");
+          setLoading(false);
+        });
     } else {
       setLoading(false);
     }
@@ -47,10 +55,12 @@ function ContextProvider({ children }) {
   };
 
   const sharedContexts = {
+    testLoading,
     register,
     authUser,
     login,
     loading,
+    setLoading,
     logout,
   };
   return <Context.Provider value={sharedContexts}>{children}</Context.Provider>;

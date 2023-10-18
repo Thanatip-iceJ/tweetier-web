@@ -8,7 +8,7 @@ import axios from "../config/axios";
 
 function HomePage() {
   //
-  const { setPosts } = useContext(PostContext);
+  const { setPosts, posts } = useContext(PostContext);
   //
   useEffect(() => {
     axios

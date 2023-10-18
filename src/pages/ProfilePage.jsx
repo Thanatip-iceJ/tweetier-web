@@ -15,13 +15,24 @@ import { ProfileContext } from "../contexts/ProfileContext";
 import AuthUserAction from "../components/profile/AuthUserAction";
 import UnknownAction from "../components/profile/UnknownAction";
 import FollowedAction from "../components/profile/FollowedAction";
+import { PostContext } from "../contexts/PostContext";
+import PostOnProfileList from "../components/post/PostOnProfileList";
+import Loading from "../assets/Loading";
 
 function ProfilePage() {
   //
   const { authUser } = useContext(Context);
   const { isOpenProfileEdit, setIsOpenProfileEdit } = useContext(HomeContext);
-  const { userProfile, setUserProfile, statusWithAuth, setStatusWithAuth } =
-    useContext(ProfileContext);
+  const { setPostsOnProfilePage } = useContext(PostContext);
+  const {
+    userProfile,
+    setUserProfile,
+    statusWithAuth,
+    setStatusWithAuth,
+    setEditInput,
+    editInput,
+  } = useContext(ProfileContext);
+
   //
   const { profileId } = useParams();
   //
@@ -30,20 +41,31 @@ function ProfilePage() {
     UNKNOWN: <UnknownAction targetId={profileId} />,
     FOLLOWED: <FollowedAction targetId={profileId} />,
   };
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`/user/${profileId}`)
-      .then((res) => {
-        console.log(res.data);
-        setUserProfile(res.data.user);
-        setStatusWithAuth(res.data.statusWithAuth);
-      })
-      .catch(console.log);
+    const test = async () => {
+      try {
+        setLoading(true);
+        const user = await axios.get(`/user/${profileId}`);
+        setUserProfile(user.data.user);
+        setEditInput({
+          firstName: user.data.user?.firstName,
+          lastName: user.data.user?.lastName,
+          bio: user.data.user?.bio,
+        });
+        setStatusWithAuth(user.data.statusWithAuth);
+        const posts = await axios.get(`post/getpostbyuserid/${profileId}`);
+        setPostsOnProfilePage(posts.data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    test();
   }, [profileId, statusWithAuth]);
-
-  // console.log(userProfile);
-  // console.log(profileId);
+  if (loading) return <Loading />;
 
   return (
     <>
@@ -59,7 +81,10 @@ function ProfilePage() {
           </div>
           <div id="flexbox" className="flex px-4 justify-between items-center">
             <div className="z-1 border-2 w-fit rounded-full border-black -mt-14">
-              <Avatar src="" size="min-w-[2.5rem] max-w-[8rem]" />
+              <Avatar
+                src={userProfile.profileImg}
+                size="min-w-[2.5rem] max-w-[8rem]"
+              />
             </div>
             <div>{statusWithAuthObj[statusWithAuth]}</div>
           </div>
@@ -73,9 +98,7 @@ function ProfilePage() {
               followers="555"
             />
             <hr className="border border-fade" />
-            <Post />
-            <Post />
-            <Post />
+            <PostOnProfileList />
           </div>
           <Modal
             title="Edit Profile"

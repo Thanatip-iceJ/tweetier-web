@@ -10,7 +10,6 @@ import { Context } from "../contexts/Context";
 function PostPage() {
   const { postId } = useParams();
   //
-  const { isLoading, setIsLoading } = useContext(Context);
   //
   const [post, setPost] = useState(null);
   console.log(post);

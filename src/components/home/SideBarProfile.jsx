@@ -7,7 +7,7 @@ function SideBarProfile({ onClick }) {
   const { authUser } = useContext(Context);
   return (
     <div className="flex gap-2 items-center py-2 px-6 w-[18vw]">
-      <Avatar onClick={onClick} />
+      <Avatar onClick={onClick} src={authUser.profileImg} />
       <div className="leading-5">
         <p
           className="text-white font-semibold hover:underline cursor-pointer"

@@ -33,7 +33,9 @@ function Post({
         <BsThreeDots />
       </div>
       <div className="flex gap-4">
-        <Avatar src={profileImg} />
+        <Link to={`/profile/${userId}`}>
+          <Avatar src={profileImg} />
+        </Link>
         <div className="flex flex-col gap-1">
           <div className="flex gap-1.5">
             <Link to={`/profile/${userId}`}>
