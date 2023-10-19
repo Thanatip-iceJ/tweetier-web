@@ -77,13 +77,13 @@ function ProfilePage() {
             to="/"
           />
           <div className="z-0">
-            <CoverImg />
+            <CoverImg src={userProfile.CoverImg} />
           </div>
           <div id="flexbox" className="flex px-4 justify-between items-center">
             <div className="z-1 border-2 w-fit rounded-full border-black -mt-14">
               <Avatar
                 src={userProfile.profileImg}
-                size="min-w-[2.5rem] max-w-[8rem]"
+                size="min-w-[2.5rem] w-[8rem] h-[8rem]"
               />
             </div>
             <div>{statusWithAuthObj[statusWithAuth]}</div>

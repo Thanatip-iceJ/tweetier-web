@@ -83,7 +83,7 @@ function EditProfileForm() {
         onClick={() => document.getElementById("profile-img").click()}
       >
         <Avatar
-          size="min-w-[2rem] max-w-[5rem]"
+          size="min-w-[2rem] w-[5rem] h-[5rem]"
           src={
             profileImgFile
               ? URL.createObjectURL(profileImgFile)

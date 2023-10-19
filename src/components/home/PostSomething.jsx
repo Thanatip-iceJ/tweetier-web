@@ -3,9 +3,11 @@ import Avatar from "../global/Avatar";
 import { BsFillImageFill } from "react-icons/bs";
 import { PostContext } from "../../contexts/PostContext";
 import { toast } from "react-toastify";
+import { Context } from "../../contexts/Context";
 
 function PostSomething({ border = "border border-border" }) {
   const { postText, setPostText, post } = useContext(PostContext);
+  const { authUser } = useContext(Context);
   //
   const submitHandle = (e) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ function PostSomething({ border = "border border-border" }) {
     <form className={`${border} pb-3`} onSubmit={submitHandle}>
       <div id="flexbox" className="flex pl-4 pt-4">
         <div id="avatar min-w-[2.5rem]">
-          <Avatar />
+          <Avatar src={authUser.profileImg} />
         </div>
         <div>
           <textarea
