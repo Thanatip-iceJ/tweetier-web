@@ -23,7 +23,7 @@ function ProfilePage() {
   //
   const { authUser } = useContext(Context);
   const { isOpenProfileEdit, setIsOpenProfileEdit } = useContext(HomeContext);
-  const { setPostsOnProfilePage } = useContext(PostContext);
+  const { setPostsOnProfilePage, postsOnProfilePage } = useContext(PostContext);
   const {
     userProfile,
     setUserProfile,
@@ -32,7 +32,7 @@ function ProfilePage() {
     setEditInput,
     editInput,
   } = useContext(ProfileContext);
-
+  // console.log(userProfile);
   //
   const { profileId } = useParams();
   //
@@ -77,7 +77,7 @@ function ProfilePage() {
             to="/"
           />
           <div className="z-0">
-            <CoverImg src={userProfile.CoverImg} />
+            <CoverImg src={userProfile.coverImg} />
           </div>
           <div id="flexbox" className="flex px-4 justify-between items-center">
             <div className="z-1 border-2 w-fit rounded-full border-black -mt-14">

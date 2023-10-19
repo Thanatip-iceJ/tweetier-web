@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SideBarLogo from "../../assets/SideBarLogo";
 import { Link } from "react-router-dom";
 import SideBarProfile from "./SideBarProfile";

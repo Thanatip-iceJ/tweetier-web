@@ -6,10 +6,17 @@ import HomeContextProvider, { HomeContext } from "../contexts/HomeContext";
 import LogoutConfirm from "../components/home/LogoutConfirm";
 import Modal from "../components/global/Modal";
 import PostSomething from "../components/home/PostSomething";
+import ConfirmDelete from "../components/post/ConfirmDelete";
 
 function HomePageLayout() {
-  const { isOpenLogout, setIsOpenLogout, isOpenPost, setIsOpenPost } =
-    useContext(HomeContext);
+  const {
+    isOpenLogout,
+    setIsOpenLogout,
+    isOpenPost,
+    setIsOpenPost,
+    isOpenDelete,
+    setIsOpenDelete,
+  } = useContext(HomeContext);
 
   return (
     <>
@@ -42,6 +49,13 @@ function HomePageLayout() {
         onClose={() => setIsOpenPost(false)}
       >
         <PostSomething border="border-none" />
+      </Modal>
+      <Modal
+        title="Do you want to delete this post?"
+        isOpen={isOpenDelete}
+        onClose={() => setIsOpenDelete(false)}
+      >
+        <ConfirmDelete />
       </Modal>
     </>
   );

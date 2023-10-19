@@ -7,17 +7,20 @@ import "react-toastify/dist/ReactToastify.css";
 import HomeContextProvider from "./contexts/HomeContext.jsx";
 import PostContextProvider from "./contexts/PostContext.jsx";
 import ProfileContextProvider from "./contexts/ProfileContext.jsx";
+import CommentContextProvider from "./contexts/CommentContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
-  <ContextProvider>
-    <ProfileContextProvider>
-      <PostContextProvider>
-        <HomeContextProvider>
-          <App />
-        </HomeContextProvider>
-      </PostContextProvider>
-    </ProfileContextProvider>
-  </ContextProvider>
+  <CommentContextProvider>
+    <ContextProvider>
+      <ProfileContextProvider>
+        <PostContextProvider>
+          <HomeContextProvider>
+            <App />
+          </HomeContextProvider>
+        </PostContextProvider>
+      </ProfileContextProvider>
+    </ContextProvider>
+  </CommentContextProvider>
   // </React.StrictMode>,
 );

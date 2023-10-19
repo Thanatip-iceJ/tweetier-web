@@ -16,17 +16,20 @@ function ProfileContextProvider({ children }) {
   const [statusWithAuth, setStatusWithAuth] = useState("");
   const editProfile = () => {
     const formData = new FormData();
+
+    if (editInput) {
+      console.log(editInput);
+      formData.append("info", JSON.stringify(editInput));
+    }
     if (profileImgFile) {
       formData.append("profileImg", profileImgFile);
     }
     if (coverImgFile) {
       formData.append("coverImg", coverImgFile);
     }
-    if (editInput) {
-      formData.append("info", editInput);
-    }
     return formData;
   };
+
   const sharedContexts = {
     userProfile,
     setUserProfile,

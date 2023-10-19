@@ -4,6 +4,8 @@ import Avatar from "../global/Avatar";
 import { ProfileContext } from "../../contexts/ProfileContext";
 import { Context } from "../../contexts/Context";
 import axios from "../../config/axios";
+import Loading from "../../assets/Loading";
+import { HomeContext } from "../../contexts/HomeContext";
 
 function EditProfileForm() {
   const {
@@ -15,23 +17,43 @@ function EditProfileForm() {
     setEditInput,
     editInput,
     userProfile,
+    setUserProfile,
   } = useContext(ProfileContext);
-  console.log(userProfile);
-  console.log(editInput);
+  const { setIsOpenProfileEdit } = useContext(HomeContext);
+  const { setAuthUser } = useContext(Context);
+  //
+  const [loading, setLoading] = useState(false);
+  //
 
-  const handleChange = (e) => setEditInput(e.target.value);
-  const handleSubmit = (e) => {
+  const handleChange = (e) =>
+    setEditInput({ ...editInput, [e.target.name]: e.target.value });
+  const handleSubmit = async (e) => {
     try {
-      e.preventDefault;
-
-      axios.patch("/profile/profileedit", editProfile());
+      e.preventDefault();
+      setLoading(true);
+      const res = await axios.patch("/user/profileedit", editProfile());
+      console.log(res.data);
+      setUserProfile({
+        ...userProfile,
+        coverImg: res.data.coverImg,
+        profileImg: res.data.profileImg,
+        ...res.data.info,
+      });
+      setAuthUser({
+        ...userProfile,
+        coverImg: res.data.coverImg,
+        profileImg: res.data.profileImg,
+        ...res.data.info,
+      });
+      console.log("userprofile", userProfile);
+      console.log(res.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
+      setIsOpenProfileEdit(false);
     }
   };
-
-  const profileImgRef = useRef(null);
-  const coverImgRef = useRef(null);
 
   useEffect(() => {
     setEditInput({
@@ -40,7 +62,7 @@ function EditProfileForm() {
       bio: userProfile.bio,
     });
   }, []);
-
+  if (loading) return <Loading />;
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -97,6 +119,7 @@ function EditProfileForm() {
           className="w-full py-1 px-3 rounded-md border border-fade bg-transparent"
           placeholder="Firstname"
           value={editInput.firstName}
+          name="firstName"
           onChange={handleChange}
         />
         <input
@@ -104,16 +127,17 @@ function EditProfileForm() {
           className="w-full py-1 px-3 rounded-md border border-fade bg-transparent"
           placeholder="Lastname"
           value={editInput.lastName}
+          name="lastName"
           onChange={handleChange}
         />
         <textarea
-          name=""
           id=""
           cols="30"
           rows="4"
           className="py-1 px-3 rounded-md border border-fade bg-transparent resize-none"
           placeholder="Bio"
           value={editInput.bio}
+          name="bio"
           onChange={handleChange}
         ></textarea>
         <div className="flex justify-end">
