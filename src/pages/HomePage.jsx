@@ -18,7 +18,10 @@ function HomePage() {
     setIsOpenLogout(false);
     axios
       .get("/post/getposts")
-      .then((res) => setPosts(res.data))
+      .then((res) => {
+        setPosts(res.data);
+        console.log(res.data);
+      })
       .catch(console.log)
       .finally(() => setIsLoading(false));
   }, []);

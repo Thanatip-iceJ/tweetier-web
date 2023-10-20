@@ -79,7 +79,7 @@ function Post({
                     <BsChat />
                   </div>
                 </Link>
-                <span className="text-sm font-light">{comments}</span>
+                <span className="text-sm font-light">{comments.length}</span>
               </div>
               <div
                 className="flex items-center gap-1 text-fade hover:text-red-500 cursor-pointer rounded-full"
