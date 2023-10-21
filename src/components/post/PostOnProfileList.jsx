@@ -4,8 +4,9 @@ import { ProfileContext } from "../../contexts/ProfileContext";
 import Post from "../home/Post";
 
 function PostOnProfileList() {
-  const { postsOnProfilePage } = useContext(PostContext);
+  const { postsOnProfilePage, handleLike } = useContext(PostContext);
   const { userProfile } = useContext(ProfileContext);
+  console.log(postsOnProfilePage);
 
   return (
     <div>
@@ -21,6 +22,8 @@ function PostOnProfileList() {
             contentImg={x.contentImg}
             createdAt={x.createdAt}
             postId={x.id}
+            likes={x.PostLikes}
+            comments={x.Comments}
           />
         ))
       ) : (

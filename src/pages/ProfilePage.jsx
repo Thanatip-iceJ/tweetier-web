@@ -18,7 +18,7 @@ import FollowedAction from "../components/profile/FollowedAction";
 import { PostContext } from "../contexts/PostContext";
 import PostOnProfileList from "../components/post/PostOnProfileList";
 import Loading from "../assets/Loading";
-
+import dateFormat, { masks } from "dateformat";
 function ProfilePage() {
   //
   const { authUser } = useContext(Context);
@@ -35,6 +35,7 @@ function ProfilePage() {
   // console.log(userProfile);
   //
   const { profileId } = useParams();
+  const [follows, setFollows] = useState({});
   //
   const statusWithAuthObj = {
     AUTH: <AuthUserAction onClick={() => setIsOpenProfileEdit(true)} />,
@@ -57,12 +58,15 @@ function ProfilePage() {
         setStatusWithAuth(user.data.statusWithAuth);
         const posts = await axios.get(`post/getpostbyuserid/${profileId}`);
         setPostsOnProfilePage(posts.data);
+        const resfollows = await axios.get(`/user/getfollows/${profileId}`);
+        setFollows(resfollows.data);
       } catch (err) {
         console.log(err);
       } finally {
         setLoading(false);
       }
     };
+    console.log(follows);
     test();
   }, [profileId, statusWithAuth]);
   if (loading) return <Loading />;
@@ -93,9 +97,9 @@ function ProfilePage() {
               name={`${userProfile.firstName} ${userProfile.lastName}`}
               username={userProfile.username}
               bio={userProfile.bio}
-              date="14 july 1999"
-              following="999"
-              followers="555"
+              date={dateFormat(userProfile.createdAt, "mmmm, yyyy")}
+              following={follows.followings.length}
+              followers={follows.followers.length}
             />
             <hr className="border border-fade" />
             <PostOnProfileList />

@@ -10,8 +10,7 @@ import { HomeContext } from "../contexts/HomeContext";
 
 function HomePage() {
   //
-  const { setPosts, posts } = useContext(PostContext);
-  const [isLoading, setIsLoading] = useState(true);
+  const { setPosts, posts, isLoading, setIsLoading } = useContext(PostContext);
   const { setIsOpenLogout } = useContext(HomeContext);
   //
   useEffect(() => {

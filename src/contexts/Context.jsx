@@ -22,7 +22,6 @@ function ContextProvider({ children }) {
   };
 
   useEffect(() => {
-    console.log("work");
     if (getAccessToken()) {
       axios
         .get("/auth/getauthuser")

@@ -5,21 +5,15 @@ import { PostContext } from "../../contexts/PostContext";
 import axios from "../../config/axios";
 
 function PostList() {
-  const { posts } = useContext(PostContext);
-  console.log(posts);
+  const { posts, handleLike } = useContext(PostContext);
+  // console.log(posts);
   //
-  const handleLike = async (postId) => {
-    try {
-      await axios.post(`post/like/${postId}`);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  console.log(posts, "commetn");
+
+  // console.log(posts, "commetn");
   return (
     <div>
       {posts.map((x) => {
-        console.log(x, "post");
+        // console.log(x, "post");
         return (
           <Post
             key={x.id}
@@ -31,9 +25,9 @@ function PostList() {
             contentImg={x.contentImg}
             userId={x.userId}
             postId={x.id}
-            handleLike={() => handleLike(x.id)}
             comments={x?.Comments}
             likes={x?.PostLikes}
+            createdAt={x.createdAt}
           />
         );
       })}

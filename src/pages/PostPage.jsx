@@ -15,21 +15,37 @@ function PostPage() {
   //
   const { comments, setComments } = useContext(CommentContext);
   //
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState({});
   const [loading, setLoading] = useState(false);
 
+  // useEffect(() => {
+  //   console.log("hi");
+  //   setLoading(true);
+  //   axios
+  //     .get(`post/getpostbyid/${postId}`)
+  //     .then((res) => {
+  //       setPost("resssss", res.data);
+  //     })
+  //     .catch(console.log)
+  //     .finally(() => setLoading(false));
+  // }, []);
   useEffect(() => {
-    console.log(comments);
-    setLoading(true);
-    axios
-      .get(`post/getpostbyid/${postId}`)
-      .then((res) => setPost(res.data))
-      .catch(console.log)
-      .finally(() => setLoading(false));
-    axios
-      .get(`/post/getcomments/${postId}`)
-      .then((res) => setComments([...res.data]));
+    console.log("first");
+    const asym = async () => {
+      try {
+        const post = await axios.get(`/post/getpostbyid/${postId}`);
+        setPost(post.data);
+        const res = await axios.get(`/post/getcomments/${postId}`);
+        console.log(res.data);
+        setComments([...res.data]);
+        console.log(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    asym();
   }, []);
+  console.log(post);
 
   if (loading) return <Loading />;
   return (
@@ -38,13 +54,16 @@ function PostPage() {
 
       <div>
         <Post
-          firstName={post?.user.firstName}
-          lastName={post?.user.lastName}
-          username={post?.user.username}
+          firstName={post?.user?.firstName}
+          lastName={post?.user?.lastName}
+          username={post?.user?.username}
           contentText={post?.contentText}
           contentImg={post?.contentImg}
-          profileImg={post?.user.profileImg}
-          comments={comments.length}
+          profileImg={post?.user?.profileImg}
+          comments={post?.Comments}
+          likes={post?.PostLikes}
+          postId={post?.id}
+          createdAt={post.createdAt}
         />
       </div>
       <CommentSomething />

@@ -28,6 +28,7 @@ function FollowSuggestion() {
           return (
             <FollowSugProfile
               key={x.id}
+              userId={x.id}
               firstName={x.firstName}
               lastName={x.lastName}
               username={x.username}

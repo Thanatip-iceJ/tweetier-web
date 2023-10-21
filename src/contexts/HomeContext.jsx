@@ -12,7 +12,7 @@ function HomeContextProvider({ children }) {
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [postIdState, setPostIdState] = useState(+"");
   // fn
-  console.log(postIdState);
+  // console.log(postIdState);
   const sharedContexts = {
     isShowMore,
     setIsShotMore,
