@@ -16,6 +16,7 @@ function PostSomething({ border = "border border-border" }) {
     isLoading,
     setIsLoading,
     posts,
+    setPosts,
   } = useContext(PostContext);
   const { authUser } = useContext(Context);
   //
@@ -23,9 +24,9 @@ function PostSomething({ border = "border border-border" }) {
     try {
       e.preventDefault();
       setIsLoading(true);
-      await axios.post("/post/createpost", post());
+      const res = await axios.post("/post/createpost", post());
       toast.success("Posted successfully");
-      // setPosts([...])
+      setPosts([res.data, ...posts]);
       setImgFile(null);
       setPostText("");
     } catch (err) {

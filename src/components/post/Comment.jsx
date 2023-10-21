@@ -30,7 +30,10 @@ function Comment({
         </div>
       )}
       <div className="flex gap-4">
-        <Avatar src={profileImg} />
+        <Avatar
+          src={profileImg}
+          size="min-w-[2.5rem] max-w-[2.5rem] min-h-[2.5rem] max-h-[2.5rem]"
+        />
         <div className="flex flex-col gap-1">
           <div className="flex gap-1.5">
             <p
