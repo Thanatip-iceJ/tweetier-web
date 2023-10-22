@@ -3,67 +3,61 @@ import PageTitle from "../components/home/PageTitle";
 import Post from "../components/home/Post";
 import CommentSomething from "../components/post/CommentSomething";
 import { BsArrowLeft } from "react-icons/bs";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import axios from "../config/axios";
 import { Context } from "../contexts/Context";
 import CommentList from "../components/post/CommentList";
 import Loading from "../assets/Loading";
 import { CommentContext } from "../contexts/CommentContext";
+import { PostContext } from "../contexts/PostContext";
+import HomePage from "./HomePage";
 
 function PostPage() {
   const { postId } = useParams();
   //
   const { comments, setComments } = useContext(CommentContext);
+  const { posts } = useContext(PostContext);
   //
-  const [post, setPost] = useState({});
+  const { postById, setPostById } = useContext(PostContext);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   console.log("hi");
-  //   setLoading(true);
-  //   axios
-  //     .get(`post/getpostbyid/${postId}`)
-  //     .then((res) => {
-  //       setPost("resssss", res.data);
-  //     })
-  //     .catch(console.log)
-  //     .finally(() => setLoading(false));
-  // }, []);
   useEffect(() => {
-    console.log("first");
+    setLoading(true);
     const asym = async () => {
       try {
         const post = await axios.get(`/post/getpostbyid/${postId}`);
-        setPost(post.data);
+        setPostById(post.data);
         const res = await axios.get(`/post/getcomments/${postId}`);
-        console.log(res.data);
-        setComments([...res.data]);
-        console.log(res.data);
+        setComments(res.data);
       } catch (err) {
         console.log(err);
+      } finally {
+        setLoading(false);
       }
     };
     asym();
   }, []);
-  console.log(post);
 
   if (loading) return <Loading />;
+  if (!postById) return <HomePage />;
   return (
     <div className="text-white min-h-[100vh] border border-border">
       <PageTitle title="Post" icon={<BsArrowLeft size="1.5rem" />} to="/" />
 
       <div>
         <Post
-          firstName={post?.user?.firstName}
-          lastName={post?.user?.lastName}
-          username={post?.user?.username}
-          contentText={post?.contentText}
-          contentImg={post?.contentImg}
-          profileImg={post?.user?.profileImg}
-          comments={post?.Comments}
-          likes={post?.PostLikes}
-          postId={post?.id}
-          createdAt={post.createdAt}
+          firstName={postById?.user?.firstName}
+          lastName={postById?.user?.lastName}
+          username={postById?.user?.username}
+          contentText={postById?.contentText}
+          contentImg={postById?.contentImg}
+          profileImg={postById?.user?.profileImg}
+          comments={postById?.Comments}
+          likes={postById?.PostLikes}
+          postId={postById.id}
+          userId={postById?.userId}
+          createdAt={postById.createdAt}
         />
       </div>
       <CommentSomething />

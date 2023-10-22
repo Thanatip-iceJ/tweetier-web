@@ -7,6 +7,9 @@ import LogoutConfirm from "../components/home/LogoutConfirm";
 import Modal from "../components/global/Modal";
 import PostSomething from "../components/home/PostSomething";
 import ConfirmDelete from "../components/post/ConfirmDelete";
+import { CommentContext } from "../contexts/CommentContext";
+import axios from "../config/axios";
+import { PostContext } from "../contexts/PostContext";
 
 function HomePageLayout() {
   const {
@@ -16,7 +19,38 @@ function HomePageLayout() {
     setIsOpenPost,
     isOpenDelete,
     setIsOpenDelete,
+    postIdState,
   } = useContext(HomeContext);
+  const {
+    isOpenDeleteComment,
+    setIsOpenDeleteComment,
+    deleteComment,
+    commentId,
+  } = useContext(CommentContext);
+  const {
+    posts,
+    setPosts,
+    setPostById,
+    setPostsOnProfilePage,
+    postsOnProfilePage,
+  } = useContext(PostContext);
+  console.log(postIdState);
+
+  console.log(postIdState);
+  const deletePostHandle = async () => {
+    try {
+      await axios.delete(`/post/delete/${postIdState}`);
+      setPosts(posts.filter((x) => x.id !== postIdState));
+      setPostById(null);
+      setPostsOnProfilePage(
+        postsOnProfilePage.filter((x) => x.id !== postIdState)
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsOpenDelete(false);
+    }
+  };
 
   return (
     <>
@@ -55,7 +89,20 @@ function HomePageLayout() {
         isOpen={isOpenDelete}
         onClose={() => setIsOpenDelete(false)}
       >
-        <ConfirmDelete />
+        <ConfirmDelete
+          yes={deletePostHandle}
+          no={() => setIsOpenDelete(false)}
+        />
+      </Modal>
+      <Modal
+        title="Do you want to delete this comment?"
+        isOpen={isOpenDeleteComment}
+        onClose={() => setIsOpenDeleteComment(false)}
+      >
+        <ConfirmDelete
+          yes={deleteComment}
+          no={() => setIsOpenDeleteComment(false)}
+        />
       </Modal>
     </>
   );

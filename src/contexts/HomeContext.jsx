@@ -10,7 +10,8 @@ function HomeContextProvider({ children }) {
   const [isOpenProfileEdit, setIsOpenProfileEdit] = useState(false);
   const [isOpenPost, setIsOpenPost] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const [postIdState, setPostIdState] = useState(+"");
+  const [postIdState, setPostIdState] = useState(0);
+  const [users, setUsers] = useState([]);
   // fn
   // console.log(postIdState);
   const sharedContexts = {
@@ -28,6 +29,8 @@ function HomeContextProvider({ children }) {
     setIsOpenDelete,
     postIdState,
     setPostIdState,
+    users,
+    setUsers,
   };
   return (
     <HomeContext.Provider value={sharedContexts}>

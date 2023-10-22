@@ -10,10 +10,14 @@ function FollowSugProfile({
   profileImg,
   onClick,
   userId,
+  followHandle,
 }) {
+  const { users, setUsers } = useContext(HomeContext);
+
   const handleFollow = async () => {
     try {
       const res = await axios.post(`/follow/${userId}`);
+      setUsers(users.filter((x) => userId !== x.id));
     } catch (err) {
       console.log(err);
     }

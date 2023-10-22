@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Post from "../home/Post";
 import { PostContext } from "../../contexts/PostContext";
 // import { useParams } from "react-router-dom";
 import axios from "../../config/axios";
 
 function PostList() {
-  const { posts, handleLike } = useContext(PostContext);
+  const { posts, handleLike, postId } = useContext(PostContext);
   // console.log(posts);
   //
 

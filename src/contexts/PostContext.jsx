@@ -1,5 +1,5 @@
 import axios from "../config/axios";
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 export const PostContext = createContext();
 
@@ -7,9 +7,13 @@ function PostContextProvider({ children }) {
   // States
   const [postText, setPostText] = useState("");
   const [posts, setPosts] = useState([]);
+  const [postById, setPostById] = useState(null);
   const [postsOnProfilePage, setPostsOnProfilePage] = useState([]);
   const [imgFile, setImgFile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLiked, setIsLiked] = useState(false);
+  const [allLikes, setAllLikes] = useState([]);
+  console.log("allLikes", allLikes);
 
   // fn
   const post = () => {
@@ -41,6 +45,12 @@ function PostContextProvider({ children }) {
     isLoading,
     setIsLoading,
     handleLike,
+    isLiked,
+    setIsLiked,
+    allLikes,
+    setAllLikes,
+    postById,
+    setPostById,
   };
   return (
     <PostContext.Provider value={sharedContexts}>

@@ -11,8 +11,8 @@ import CommentContextProvider from "./contexts/CommentContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
-  <CommentContextProvider>
-    <ContextProvider>
+  <ContextProvider>
+    <CommentContextProvider>
       <ProfileContextProvider>
         <PostContextProvider>
           <HomeContextProvider>
@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           </HomeContextProvider>
         </PostContextProvider>
       </ProfileContextProvider>
-    </ContextProvider>
-  </CommentContextProvider>
+    </CommentContextProvider>
+  </ContextProvider>
   // </React.StrictMode>,
 );

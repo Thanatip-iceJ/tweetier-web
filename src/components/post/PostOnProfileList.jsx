@@ -22,6 +22,7 @@ function PostOnProfileList() {
             contentImg={x.contentImg}
             createdAt={x.createdAt}
             postId={x.id}
+            userId={x.userId}
             likes={x.PostLikes}
             comments={x.Comments}
           />

@@ -9,6 +9,7 @@ import { HomeContext } from "../../contexts/HomeContext";
 import ConfirmDelete from "../post/ConfirmDelete";
 import axios from "../../config/axios";
 import { format } from "timeago.js";
+import { PostContext } from "../../contexts/PostContext";
 
 function Post({
   firstName,
@@ -28,28 +29,45 @@ function Post({
   const { isOpenDelete, setIsOpenDelete, setPostIdState } =
     useContext(HomeContext);
   // States
+  const [allLikes, setAllLikes] = useState(likes);
   const [img, setImg] = useState(null);
-  const [isLiked, setIsLiked] = useState(false);
+
   const [isOpen, setIsOpen] = useState(false);
   //
   const handleDropdown = () => {
     setIsOpen(!isOpen);
     setPostIdState(postId);
   };
-  console.log("Likessss", likes);
+  useEffect(() => {
+    const getLikes = async () => {
+      try {
+        const res = await axios.get(`/post/getlikes/${postId}`);
+        setAllLikes(res.data);
+        if (allLikes.find((x) => x.likedById === authUser.id)) {
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getLikes();
+  }, []);
 
   const handleLike = async () => {
     try {
       await axios.post(`post/like/${postId}`);
+      if (!isLiked) {
+        setAllLikes((prev) => [
+          { postId: postId, likedById: authUser.id },
+          ...prev,
+        ]);
+        return;
+      }
+      setAllLikes(allLikes.filter((x) => x.likedById !== authUser.id));
     } catch (err) {
       console.log(err);
     }
   };
-  // for (let x of likes) {
-  //   if (x.likedById === authUser.id) {
-  //     setIsLiked(true);
-  //   }
-  // }
+  const isLiked = allLikes && allLikes.find((x) => x.likedById === authUser.id);
 
   return (
     <>
@@ -65,11 +83,13 @@ function Post({
             <BsThreeDots />
           </div>
         )}
-        <div className="flex gap-4">
+        <div className="flex h-fit gap-4">
           <Link to={`/profile/${userId}`}>
             <Avatar
               src={profileImg}
-              size={"h-[2.8rem] max-w-[2.8rem] min-w-[2.8rem]"}
+              size={
+                "min-h-[2.8rem] max-h-[2.8rem] max-w-[2.8rem] min-w-[2.8rem]"
+              }
             />
           </Link>
           <div className="flex flex-col gap-1">
@@ -109,10 +129,7 @@ function Post({
                 </Link>
                 <span className="text-sm font-light">{comments?.length}</span>
               </div>
-              <div
-                className="flex items-center gap-1 text-fade hover:text-red-500 cursor-pointer rounded-full"
-                onClick={() => setIsLiked(!isLiked)}
-              >
+              <div className="flex items-center gap-1 text-fade hover:text-red-500 cursor-pointer rounded-full">
                 <div className="p-2 hover:bg-red-500/[.3] rounded-full">
                   {isLiked ? (
                     <div className="text-red-500">
@@ -125,14 +142,14 @@ function Post({
                 <span
                   className={`text-sm font-light ${isLiked && "text-red-500"}`}
                 >
-                  {likes?.length}
+                  {allLikes?.length}
                 </span>
               </div>
             </div>
           </div>
         </div>
         {/* DropDown */}
-        {isOpen && <DropDown />}
+        {isOpen && <DropDown onClick={() => setIsOpenDelete(true)} />}
       </div>
     </>
   );

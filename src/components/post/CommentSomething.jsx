@@ -3,24 +3,33 @@ import Avatar from "../global/Avatar";
 import { Context } from "../../contexts/Context";
 import { useParams } from "react-router-dom";
 import axios from "../../config/axios";
+import { CommentContext } from "../../contexts/CommentContext";
+import Loading from "../../assets/Loading";
 
 function CommentSomething() {
   const [commentText, setCommentText] = useState("");
   const { authUser } = useContext(Context);
+  const { comments, setComments } = useContext(CommentContext);
   const { postId } = useParams();
+  const [loading, setLoading] = useState(false);
   //
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setLoading(true);
       const res = await axios.post(`/post/comment/${postId}`, {
         message: commentText,
       });
+      console.log(res.data);
+      setComments((prev) => [res.data, ...prev]);
     } catch (err) {
       console.log(err);
     } finally {
       setCommentText("");
+      setLoading(false);
     }
   };
+  if (loading) return <Loading />;
 
   return (
     <div className="border border-border px-4 py-6">

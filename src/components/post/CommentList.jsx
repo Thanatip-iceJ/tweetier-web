@@ -17,6 +17,7 @@ function CommentList() {
           createdAt={x?.createdAt}
           profileImg={x?.user?.profileImg}
           userId={x.commentedById}
+          id={x.id}
         />
       ))}
     </div>
