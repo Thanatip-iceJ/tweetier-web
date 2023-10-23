@@ -31,6 +31,8 @@ function ProfilePage() {
     setStatusWithAuth,
     setEditInput,
     editInput,
+    setProfileImgFile,
+    setCoverImgFile,
   } = useContext(ProfileContext);
   // console.log(userProfile);
   //
@@ -107,7 +109,11 @@ function ProfilePage() {
           <Modal
             title="Edit Profile"
             isOpen={isOpenProfileEdit}
-            onClose={() => setIsOpenProfileEdit(false)}
+            onClose={() => {
+              setProfileImgFile(false);
+              setCoverImgFile(false);
+              setIsOpenProfileEdit(false);
+            }}
           >
             <EditProfileForm />
           </Modal>

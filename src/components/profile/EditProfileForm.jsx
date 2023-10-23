@@ -6,14 +6,15 @@ import { Context } from "../../contexts/Context";
 import axios from "../../config/axios";
 import Loading from "../../assets/Loading";
 import { HomeContext } from "../../contexts/HomeContext";
+import { editProfileSchema } from "../../validSchema/schemas";
 
 function EditProfileForm() {
   const {
     editProfile,
     setProfileImgFile,
-    profileImgFile,
-    coverImgFile,
     setCoverImgFile,
+    coverImgFile,
+    profileImgFile,
     setEditInput,
     editInput,
     userProfile,
@@ -23,13 +24,33 @@ function EditProfileForm() {
   const { setAuthUser } = useContext(Context);
   //
   const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(undefined);
   //
 
+  const inputValidate = (input) => {
+    const { error, value } = editProfileSchema.validate(input, {
+      abortEarly: false,
+    });
+    console.log("error", error);
+    if (error) {
+      const output = error.details.reduce((acc, x) => {
+        acc[x.context.label] = x.message;
+        return acc;
+      }, {});
+      return output;
+    }
+  };
   const handleChange = (e) =>
     setEditInput({ ...editInput, [e.target.name]: e.target.value });
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      const validateErr = inputValidate(editInput);
+      if (validateErr) {
+        setIsError(validateErr);
+        return;
+      }
       setLoading(true);
       const res = await axios.patch("/user/profileedit", editProfile());
       console.log(res.data);
@@ -45,21 +66,22 @@ function EditProfileForm() {
         profileImg: res.data.profileImg,
         ...res.data.info,
       });
-      console.log("userprofile", userProfile);
-      console.log(res.data);
+      setIsOpenProfileEdit(false);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
-      setIsOpenProfileEdit(false);
+      setProfileImgFile(null);
+      setCoverImgFile(null);
     }
   };
+  console.log(isError);
 
   useEffect(() => {
     setEditInput({
       firstName: userProfile.firstName,
       lastName: userProfile.lastName,
-      bio: userProfile.bio,
+      bio: userProfile.bio || "",
     });
   }, []);
   if (loading) return <Loading />;
@@ -122,6 +144,11 @@ function EditProfileForm() {
           name="firstName"
           onChange={handleChange}
         />
+        {isError?.firstName && (
+          <span className="text-red-500 text-sm font-light -mt-4">
+            {isError?.firstName}
+          </span>
+        )}
         <input
           type="text"
           className="w-full py-1 px-3 rounded-md border border-fade bg-transparent"
@@ -130,6 +157,12 @@ function EditProfileForm() {
           name="lastName"
           onChange={handleChange}
         />
+        {isError?.lastName && (
+          <span className="text-red-500 text-sm font-light -mt-4">
+            {isError?.lastName}
+          </span>
+        )}
+
         <textarea
           id=""
           cols="30"

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Avatar from "../global/Avatar";
 import { Context } from "../../contexts/Context";
 import { BsChat, BsFillHeartFill, BsHeart, BsThreeDots } from "react-icons/bs";
@@ -33,6 +33,7 @@ function Post({
   const [img, setImg] = useState(null);
 
   const [isOpen, setIsOpen] = useState(false);
+
   //
   const handleDropdown = () => {
     setIsOpen(!isOpen);
@@ -68,6 +69,13 @@ function Post({
     }
   };
   const isLiked = allLikes && allLikes.find((x) => x.likedById === authUser.id);
+  const dropDown = useRef(null);
+  const handleClickOutside = (e) => {
+    if (isOpen && !dropDown.current?.contains(e.target)) {
+      setIsOpen(false);
+    }
+  };
+  document.addEventListener("click", handleClickOutside);
 
   return (
     <>
@@ -76,12 +84,15 @@ function Post({
         className=" flex flex-col px-4 py-2 border border-border relative pt-3 hover:bg-gray-800/[.2] first-line:z-0"
       >
         {userId === authUser.id && (
-          <div
-            className=" text-fade p-2 hover:bg-fade/[.3] rounded-full cursor-pointer absolute right-3 top-2"
-            onClick={handleDropdown}
-          >
-            <BsThreeDots />
-          </div>
+          <>
+            <div
+              className=" text-fade p-2 hover:bg-fade/[.3] rounded-full cursor-pointer absolute right-3 top-2"
+              onClick={handleDropdown}
+              ref={dropDown}
+            >
+              <BsThreeDots />
+            </div>
+          </>
         )}
         <div className="flex h-fit gap-4">
           <Link to={`/profile/${userId}`}>
@@ -149,7 +160,14 @@ function Post({
           </div>
         </div>
         {/* DropDown */}
-        {isOpen && <DropDown onClick={() => setIsOpenDelete(true)} />}
+        {isOpen && (
+          <DropDown
+            onClick={() => setIsOpenDelete(true)}
+            onClose={() => setIsOpenDelete(false)}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+          />
+        )}
       </div>
     </>
   );

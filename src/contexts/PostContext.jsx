@@ -5,7 +5,7 @@ export const PostContext = createContext();
 
 function PostContextProvider({ children }) {
   // States
-  const [postText, setPostText] = useState("");
+  const [postText, setPostText] = useState({ postContent: "" });
   const [posts, setPosts] = useState([]);
   const [postById, setPostById] = useState(null);
   const [postsOnProfilePage, setPostsOnProfilePage] = useState([]);
@@ -21,7 +21,7 @@ function PostContextProvider({ children }) {
     if (imgFile) {
       formData.append("img", imgFile);
     }
-    formData.append("text", JSON.stringify(postText));
+    formData.append("text", JSON.stringify(postText.postContent));
     return formData;
   };
   const handleLike = async (postId) => {

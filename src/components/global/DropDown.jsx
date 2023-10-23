@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { HomeContext } from "../../contexts/HomeContext";
 
-function DropDown({ onClick }) {
+function DropDown({ onClick, onClose, isOpen, setIsOpen }) {
   const { setIsOpenDelete } = useContext(HomeContext);
   //
   return (
@@ -10,6 +10,7 @@ function DropDown({ onClick }) {
       onClick={onClick}
     >
       <div>Delete</div>
+      {/* {document.addEventListener("click", handleClickOutside)} */}
     </div>
   );
 }

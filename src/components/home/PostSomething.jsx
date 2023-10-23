@@ -5,6 +5,8 @@ import { PostContext } from "../../contexts/PostContext";
 import { toast } from "react-toastify";
 import { Context } from "../../contexts/Context";
 import axios from "../../config/axios";
+import { HomeContext } from "../../contexts/HomeContext";
+import { postSchema } from "../../validSchema/schemas";
 
 function PostSomething({ border = "border border-border" }) {
   const {
@@ -18,24 +20,47 @@ function PostSomething({ border = "border border-border" }) {
     posts,
     setPosts,
   } = useContext(PostContext);
+  const { setIsOpenPost, postModalLoading, setPostModalLoading } =
+    useContext(HomeContext);
   const { authUser } = useContext(Context);
   //
+  const [isError, setIsError] = useState(null);
+  const validatePost = (input) => {
+    const { error, value } = postSchema.validate(input);
+    if (error) {
+      const output = error.details.reduce((acc, x) => {
+        acc[x.context.label] = x.message;
+        return acc;
+      }, {});
+      return output;
+    }
+  };
+
   const submitHandle = async (e) => {
     try {
       e.preventDefault();
+      const validateErr = validatePost(postText);
+      if (validateErr) {
+        setIsError(validateErr);
+        return;
+      }
       setIsLoading(true);
+      setPostModalLoading(true);
       const res = await axios.post("/post/createpost", post());
       toast.success("Posted successfully");
       setPosts([res.data, ...posts]);
       setImgFile(null);
-      setPostText("");
+      setPostText({ postContent: "" });
+      setIsOpenPost(false);
     } catch (err) {
       console.log(err);
     } finally {
       setIsLoading(false);
+      setPostModalLoading(false);
     }
   };
-
+  console.log(isError);
+  console.log(postText);
   return (
     <form className={`${border} pb-3`} onSubmit={submitHandle}>
       <input
@@ -57,15 +82,19 @@ function PostSomething({ border = "border border-border" }) {
         </div>
         <div>
           <textarea
-            name=""
-            id=""
+            name="postContent"
             cols="50"
             rows="2"
             placeholder="What's happening?"
             className="bg-transparent outline-none resize-none px-4 pt-2 h-fit "
-            value={postText}
-            onChange={(e) => setPostText(e.target.value)}
+            value={postText.postContent}
+            onChange={(e) => setPostText({ postContent: e.target.value })}
           ></textarea>
+          {isError && (
+            <span className="text-sm text-red-500 font-light">
+              {isError.postContent}
+            </span>
+          )}
         </div>
       </div>
       {imgFile && (

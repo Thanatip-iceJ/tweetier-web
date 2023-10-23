@@ -11,16 +11,16 @@ import CommentContextProvider from "./contexts/CommentContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
-  <ContextProvider>
-    <CommentContextProvider>
-      <ProfileContextProvider>
-        <PostContextProvider>
-          <HomeContextProvider>
+  <HomeContextProvider>
+    <ContextProvider>
+      <CommentContextProvider>
+        <ProfileContextProvider>
+          <PostContextProvider>
             <App />
-          </HomeContextProvider>
-        </PostContextProvider>
-      </ProfileContextProvider>
-    </CommentContextProvider>
-  </ContextProvider>
+          </PostContextProvider>
+        </ProfileContextProvider>
+      </CommentContextProvider>
+    </ContextProvider>
+  </HomeContextProvider>
   // </React.StrictMode>,
 );

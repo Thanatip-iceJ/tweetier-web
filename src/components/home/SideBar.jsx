@@ -11,6 +11,7 @@ import {
 import { Context } from "../../contexts/Context";
 import { useNavigate } from "react-router-dom";
 import { HomeContext } from "../../contexts/HomeContext";
+import { PostContext } from "../../contexts/PostContext";
 
 function Sidebar() {
   const { logout, setIsOpenLogout, setIsOpenProfileEdit, setIsOpenPost } =

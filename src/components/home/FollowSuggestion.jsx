@@ -6,19 +6,29 @@ import axios from "../../config/axios";
 import { Navigate, useNavigate } from "react-router-dom";
 
 function FollowSuggestion() {
-  const { isShowMore, setIsShotMore, users, setUsers } =
+  const { isShowMore, setIsShowMore, users, setUsers } =
     useContext(HomeContext);
   //
   const navigate = useNavigate();
   //
   //
   const handleShowMore = () => {
-    setIsShotMore(!isShowMore);
+    setIsShowMore(!isShowMore);
   };
 
   useEffect(() => {
-    axios.get("/user/getusers").then((res) => setUsers([...res.data]));
-  }, []);
+    const getUser = async () => {
+      try {
+        const res = await axios.get("/user/getusers");
+        const defaultArr = res.data.slice(0, 4);
+        const showMoreArr = res.data.slice(0, 8);
+        !isShowMore ? setUsers(defaultArr) : setUsers(showMoreArr);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUser();
+  }, [isShowMore]);
 
   return (
     <div className="bg-[#313131] mx-auto w-[90%] p-2 rounded-md mt-2 pt-4">

@@ -4,7 +4,7 @@ export const HomeContext = createContext();
 
 function HomeContextProvider({ children }) {
   // States
-  const [isShowMore, setIsShotMore] = useState(false);
+  const [isShowMore, setIsShowMore] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenLogout, setIsOpenLogout] = useState(false);
   const [isOpenProfileEdit, setIsOpenProfileEdit] = useState(false);
@@ -12,11 +12,12 @@ function HomeContextProvider({ children }) {
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [postIdState, setPostIdState] = useState(0);
   const [users, setUsers] = useState([]);
+  const [postModalLoading, setPostModalLoading] = useState(false);
   // fn
   // console.log(postIdState);
   const sharedContexts = {
     isShowMore,
-    setIsShotMore,
+    setIsShowMore,
     isOpen,
     setIsOpen,
     isOpenLogout,
@@ -31,6 +32,8 @@ function HomeContextProvider({ children }) {
     setPostIdState,
     users,
     setUsers,
+    postModalLoading,
+    setPostModalLoading,
   };
   return (
     <HomeContext.Provider value={sharedContexts}>

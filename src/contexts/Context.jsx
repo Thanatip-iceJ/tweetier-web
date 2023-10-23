@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { createContext } from "react";
 import axios from "../config/axios";
 import {
@@ -7,14 +7,15 @@ import {
   removeAccessToken,
 } from "../utils/local-storage";
 import { useState } from "react";
+import { HomeContext } from "./HomeContext";
 
 export const Context = createContext();
 
 function ContextProvider({ children }) {
   //States
   const [authUser, setAuthUser] = useState(null);
-
   const [loading, setLoading] = useState(true);
+  const { setIsShowMore, setIsOpenLogout } = useContext(HomeContext);
   // console.log(authUser);
 
   const testLoading = (bool) => {
@@ -51,12 +52,15 @@ function ContextProvider({ children }) {
   const logout = () => {
     removeAccessToken();
     setAuthUser(null);
+    setIsShowMore(false);
+    setIsOpenLogout(false);
   };
 
   const sharedContexts = {
     testLoading,
     register,
     authUser,
+    setAuthUser,
     login,
     loading,
     setLoading,

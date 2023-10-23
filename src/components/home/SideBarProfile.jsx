@@ -1,10 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Context } from "../../contexts/Context";
 import Avatar from "../global/Avatar";
+import { getAccessToken } from "../../utils/local-storage";
+import axios from "../../config/axios";
 
 function SideBarProfile({ onClick }) {
-  const { authUser } = useContext(Context);
+  const { authUser, setAuthUser } = useContext(Context);
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className="flex gap-2 items-center py-2 px-6 w-[18vw]">
       <Avatar
