@@ -22,6 +22,9 @@ function FollowSugProfile({
       console.log(err);
     }
   };
+  const displayName = `${firstName} ${lastName}`;
+  const slicedDisplayName = displayName.slice(0, 15) + "...";
+  const showName = displayName.length > 15 ? slicedDisplayName : displayName;
 
   return (
     <div className="flex justify-between items-center">
@@ -36,9 +39,11 @@ function FollowSugProfile({
             className="text-white text-sm font-semibold hover:underline cursor-pointer"
             onClick={onClick}
           >
-            {firstName} {lastName}
+            {showName}
           </p>
-          <p className="text-[#505050] text-sm font-semibold">@{username}</p>
+          <p className="text-[#505050] text-sm font-semibold">
+            @{username.toLowerCase()}
+          </p>
         </div>
       </div>
       <button

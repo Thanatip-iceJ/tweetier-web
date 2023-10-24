@@ -21,7 +21,7 @@ function EditProfileForm() {
     setUserProfile,
   } = useContext(ProfileContext);
   const { setIsOpenProfileEdit } = useContext(HomeContext);
-  const { setAuthUser } = useContext(Context);
+  const { authUser, setAuthUser } = useContext(Context);
   //
   const [loading, setLoading] = useState(false);
   const [isError, setIsError] = useState(undefined);
@@ -56,14 +56,18 @@ function EditProfileForm() {
       console.log(res.data);
       setUserProfile({
         ...userProfile,
-        coverImg: res.data.coverImg,
-        profileImg: res.data.profileImg,
+        coverImg: res.data.coverImg ? res.data?.coverImg : userProfile.coverImg,
+        profileImg: res.data.profileImg
+          ? res.data?.profileImg
+          : userProfile.profileImg,
         ...res.data.info,
       });
       setAuthUser({
         ...userProfile,
-        coverImg: res.data.coverImg,
-        profileImg: res.data.profileImg,
+        coverImg: res.data.coverImg ? res.data.coverImg : authUser.coverImg,
+        profileImg: res.data.profileImg
+          ? res.data.profileImg
+          : authUser.profileImg,
         ...res.data.info,
       });
       setIsOpenProfileEdit(false);

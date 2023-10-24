@@ -39,3 +39,7 @@ export const editProfileSchema = Joi.object({
 export const postSchema = Joi.object({
   postContent: Joi.string().required().max(300),
 });
+
+export const commentSchema = Joi.object({
+  commentText: Joi.string().required().max(300),
+});
